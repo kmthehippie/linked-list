@@ -49,19 +49,24 @@ const LinkedList = ()=>{
     
     const at = function(index){
         let nodeAtIndex = head;
-        while (head !== null){
+        while (head !== null && index <= length){
             for (let i = 0; i < index-1; i++){
                 nodeAtIndex = nodeAtIndex.nextNode
             }
             return nodeAtIndex
         }
+        return
     }
 
     const pop = function(){
-        at(length-1).nextNode = tail
-        current = at(length-1)
-        length -- 
+        if (head!== null){
+            at(length-1).nextNode = tail
+            current = at(length-1)
+            length -- 
+        }
+        return
     }
+
     const contains = function(value){
         let nodeContains = head;
         while(head !== null){
@@ -119,18 +124,37 @@ const LinkedList = ()=>{
     }
 
     const insertAt = function (value, index) {
-        let nextIndex = at(index+1);
-        let atIndex = at(index)
-        let newNode = Node(value, nextIndex)
-        atIndex.nextNode = newNode
-        length ++
+        if (length === 0) {
+            head = Node (value, tail)
+            length ++
+        } else if (index === 0) {
+            prepend(value)
+        } else if (index > length){
+            return
+        } else if (index === length){
+            append(value)
+        }else if (length > 1 && index < length){
+            let nextIndex = at(index+1);
+            let atIndex = at(index)
+            let newNode = Node(value, nextIndex)
+            atIndex.nextNode = newNode
+            length ++
+        } 
     }
 
     const removeAt = function(index) {
-        let atIndex = at(index)
-        let nextIndex = at(index+2)
-        atIndex.nextNode = nextIndex
-        length --
+        if (length === 0 || index >= length) { 
+            console.log( "Invalid") 
+            return
+        } else if (length > 0 && index === 0) {
+            head = head.nextNode;
+            length --
+        } else {
+            let prevIndex = at(index)
+            let nextIndex = at(index+2)
+            prevIndex.nextNode = nextIndex
+            length --
+        }      
     }
 
     return { append, prepend, whatIsHead, whatIsTail, size, at, pop, contains, find, toString, insertAt, removeAt}
@@ -144,25 +168,27 @@ function Node (value = null, nextNode = null){
 
 
 const ll = LinkedList();
-ll.append(100);
-ll.append(300);
-ll.append(499);
-ll.append(533);
-ll.prepend(88);
-ll.prepend(55);
-ll.append(666);
-
-ll.pop();
-ll.insertAt(999, 3)
-ll.toString();
+// ll.append(100);
+// ll.append(300);
+// ll.append(499);
+// ll.append(533);
+// ll.prepend(88);
+// ll.prepend(55);
+// ll.append(666);
 
 
-console.log(ll.find(534))
-console.log(ll.contains(499))
-console.log(ll.size())
-console.log(ll.at(3))
-console.log(ll.whatIsHead())
+// ll.pop();
+// ll.toString();
 
-ll.removeAt(6);
-ll.toString();
-console.log(ll.size())
+
+// console.log(ll.find(534))
+// console.log(ll.contains(499))
+// console.log(ll.size())
+// console.log(ll.whatIsHead())
+
+// ll.insertAt(999, 4)
+// ll.toString();
+// ll.removeAt(2);
+// ll.toString();
+
+// console.log(ll.size())
